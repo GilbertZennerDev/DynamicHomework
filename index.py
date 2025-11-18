@@ -7,14 +7,18 @@ class Student:
         self.name = name
 
 def ReadAllFiles(subjects):
-    all_files = []
+    if 'all_files' in st.session_state: return
+    print("Reading from Disk")
+    all_files = {}
     for subject in subjects:
+        all_files[subject] = {}
         for level in range(1, 11):
-            open("subjects/" + subject + '/' + subject + '_level' + level + '.txt', 'r').read().splitlines()
+            try: all_files[subject][f'level{str(level)}'] = open("subjects/" + subject + '/' + subject + '_level' + str(level) + '.txt', 'r').read().splitlines()
+            except Exception as e: print(e); continue
+    st.session_state['all_files'] = all_files
 
 def ReadSubjectFile(subject, level):
-    try: return open("subjects/" + subject + '/' + subject + '_level' + level + '.txt', 'r').read().splitlines()
-    except Exception as e: print(e); return -1
+    return st.session_state['all_files'][subject][f'level{str(level)}']
 
 def CleanTasks(all_level_tasks):
     if all_level_tasks == -1: return -1
@@ -43,4 +47,5 @@ def run(name, subjects):
 
 if __name__ == '__main__':
     subjects = ['german', 'english', 'math', 'art']
+    ReadAllFiles(subjects)
     run('Johnny', subjects)
