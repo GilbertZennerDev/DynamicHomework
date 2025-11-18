@@ -3,8 +3,10 @@ import random as r
 import streamlit as st
 
 class Student:
-    def __init__(self, name):
+    def __init__(self, name, level, subjects):
         self.name = name
+        self.level = level
+        self.subjects = subjects
 
 def ReadAllFiles(subjects):
     if 'all_files' in st.session_state: return
@@ -18,7 +20,7 @@ def ReadAllFiles(subjects):
     st.session_state['all_files'] = all_files
 
 def ReadSubjectFile(subject, level):
-    return st.session_state['all_files'][subject][f'level{str(level)}']
+    return st.session_state['all_files'][subject][f'level{level}']
 
 def CleanTasks(all_level_tasks):
     if all_level_tasks == -1: return -1
@@ -29,23 +31,23 @@ def XTasks(tasks, x):
     return r.sample(tasks, len(tasks))
 
 def PrintTasks(subjects):
-    level = st.slider('Waehle das Level aus:', 1, 10)
+    level = str(st.slider('Waehle das Level aus:', 1, 10))
     amount = st.slider('Waehle wieviele Aufgaben:', 1, 30)
     subject = st.selectbox(label="Waehle das Fach: ", options=subjects, index=0)
-    Tasks = CleanTasks(ReadSubjectFile(subject, str(level)))
+    Tasks = CleanTasks(ReadSubjectFile(subject, level))
     if Tasks == -1: st.error("File not found"); exit()
     tasks = XTasks(Tasks, amount)
     for task in tasks: st.write(f'{task}')
 
 def greet(name):
-    s1 = Student(name)
-    st.header(f"Welcome {s1.name} to your Dynamic Homework Generator:\n")
+    st.header(f"Welcome {name} to your Dynamic Homework Generator:\n")
 
-def run(name, subjects):
-    greet(name)
-    PrintTasks(subjects)
+def run(name, level, subjects):
+    s1 = Student(name, level, subjects)
+    greet(s1.name)
+    PrintTasks(s1.subjects)
 
 if __name__ == '__main__':
     subjects = ['german', 'english', 'math', 'art']
     ReadAllFiles(subjects)
-    run('Johnny', subjects)
+    run('Johnny', 5, subjects)
