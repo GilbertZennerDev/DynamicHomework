@@ -14,7 +14,7 @@ def ReadAllFiles(subjects):
     all_files = {}
     for subject in subjects:
         all_files[subject] = {}
-        for level in range(1, 11):
+        for level in range(1, 4):
             try: all_files[subject][f'level{str(level)}'] = open("subjects/" + subject + '/' + subject + '_level' + str(level) + '.txt', 'r').read().splitlines()
             except Exception as e: print(e); continue
     st.session_state['all_files'] = all_files
