@@ -6,8 +6,7 @@ class Student:
     def __init__(self, name):
         self.name = name
 
-def ReadAllFiles():
-    subjects = ['german', 'english']
+def ReadAllFiles(subjects):
     all_files = []
     for subject in subjects:
         for level in range(1, 11):
@@ -26,7 +25,6 @@ def XTasks(tasks, x):
     return r.sample(tasks, len(tasks))
 
 def PrintTasks(subjects):
-    #subjects = ['german', 'english', 'math', 'art']
     level = st.slider('Waehle das Level aus:', 1, 10)
     amount = st.slider('Waehle wieviele Aufgaben:', 1, 30)
     subject = st.selectbox(label="Waehle das Fach: ", options=subjects, index=0)
