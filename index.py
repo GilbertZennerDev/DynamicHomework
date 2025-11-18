@@ -39,12 +39,9 @@ def PrintTasks(subjects):
     tasks = XTasks(Tasks, amount)
     for task in tasks: st.write(f'{task}')
 
-def greet(name):
-    st.header(f"Welcome {name} to your Dynamic Teaching Generator:\n")
-
 def run(name, level, subjects):
     s1 = Student(name, level, subjects)
-    greet(s1.name)
+    st.header(f"Welcome {name} to your Dynamic Teaching Generator:\n")
     PrintTasks(s1.subjects)
 
 if __name__ == '__main__':
